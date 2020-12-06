@@ -1,0 +1,18 @@
+
+use My_MongoDB_Base
+
+db.users.insert({first_name : "Connor", last_name: "Ellington", contacts : {tel1 : "+27(478) 794 68 41", tel2 : "+27(478) 454 57 82", address : "9336, Civic Center Drive Beverly Hills"}})
+db.users.insert({first_name : "Isabella", last_name: "Lewis", contacts : {tel1 : "+47(414) 872 85 50", fax : "+1 490 2890", address : "40, Rockefeller Plz New York"}})
+db.users.insert({first_name : "Thomas", last_name: "Davies", contacts : {tel1 : "+47(414) 845 54 56", tel2 : "+47(414) 845 89 09", fax : "+47(414) 845 89 94",  address: "12 Stock Road LONDON"}})
+
+db.users.find()
+
+
+db.users.aggregate( [ 
+	{ $project : 
+		{ _id: 0, 
+		first_name : 1, 
+		last_name : 1, 
+		contacts : { $objectToArray: "$contacts" } } },
+	{ $addFields: { "contacts": { $size: "$contacts" } }}
+ ] )
